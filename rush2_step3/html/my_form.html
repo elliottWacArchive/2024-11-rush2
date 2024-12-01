@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" href="../css/my_style.css">
+    <link rel="stylesheet" href="../css/cursor.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bokor&display=swap" rel="stylesheet">
+<style>
+
+</style>
+</head>
+<body>
+<form action="upload.php" method="post" enctype="multipart/form-data" id="form">
+        <fieldset class="formContainer">
+            <legend>Formulaire:</legend>
+            <div class="dropzone" id="dropzone">Déposez vos fichiers ici</div>
+            <input type="file" id="fileInput" name="files[]" multiple style="display: none;">
+            <div class="file-list" id="fileList"></div>
+            <label for="subButton"> </label>
+            <input name="subButton" id="subButton" type="submit" value="Validation" />
+        </fieldset>
+    </form>
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+
+        dropzone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropzone.style.borderColor = '#000';
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.style.borderColor = '#ccc';
+        });
+
+        dropzone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropzone.style.borderColor = '#ccc';
+            const files = event.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        dropzone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (event) => {
+            const files = event.target.files;
+            handleFiles(files);
+        });
+
+        function handleFiles(files) {
+            fileList.innerHTML = '';
+            for (let i = 0; i < files.length; i++) {
+                const fileItem = document.createElement('div');
+                fileItem.textContent = files[i].name;
+                fileList.appendChild(fileItem);
+            }
+        }
+    </script>
+</body>
+</html>
